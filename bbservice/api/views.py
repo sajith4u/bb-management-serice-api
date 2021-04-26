@@ -1,8 +1,6 @@
-from django.shortcuts import render
-from rest_framework import viewsets
 from .models import Player, Team, Player_Stat, Team_Stat, Game
-from .serializers import PlayerSerializer, PlayerStatSerializer, TeamSerializer, TeamStatSerializer, GameSerializer
-from django.http import HttpResponse, HttpResponseForbidden, JsonResponse
+from .serializers import PlayerSerializer, PlayerStatSerializer, TeamSerializer, TeamStatSerializer, GameSerializer, PlayerSummarySerializer
+from django.http import  JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.db.models import Avg
 
@@ -65,3 +63,17 @@ def game(request):
         games = Game.objects.all()
         game_serializer = GameSerializer(games, many=True)
         return JsonResponse(game_serializer.data, safe=False)
+
+
+@csrf_exempt
+def game_details(request, game_id=None):
+    if request.method == 'GET':
+        game = Game.objects.filter(id=game_id).first()
+        game_serializer = GameSerializer(game)
+        player_stat = Player_Stat.objects.filter(game=game.id).all()
+        player_stat_serializer = PlayerSummarySerializer(player_stat, many=True)
+        response = {
+            'game': game_serializer.data,
+            'players': player_stat_serializer.data,
+        }
+        return JsonResponse(response, safe=False)

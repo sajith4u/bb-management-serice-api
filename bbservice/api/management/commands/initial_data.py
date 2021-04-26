@@ -75,7 +75,8 @@ class Command(BaseCommand):
             except ObjectDoesNotExist:
                 raise CommandError('Role Model Does not exists')
             role_mappings.save()
-            self.stdout.write(self.style.SUCCESS('Add Player Role Mappings  "%s", User "%s" ' % (player.type, user.username)))
+            self.stdout.write(
+                self.style.SUCCESS('Add Player Role Mappings  "%s", User "%s" ' % (player.type, user.username)))
 
         ''' Add All Coaches (1*16)'''
         for user in users[160:176]:
@@ -85,7 +86,8 @@ class Command(BaseCommand):
             except ObjectDoesNotExist:
                 raise CommandError('Role Model Does not exists')
             role_mappings.save()
-            self.stdout.write(self.style.SUCCESS('Add Coach Role Mappings "%s, User "%s "' % (coach.type,user.username)))
+            self.stdout.write(
+                self.style.SUCCESS('Add Coach Role Mappings "%s, User "%s "' % (coach.type, user.username)))
 
         ''' Add Super Admin (1)'''
         try:
@@ -94,7 +96,7 @@ class Command(BaseCommand):
         except ObjectDoesNotExist:
             raise CommandError('Role Model Does not exists')
         role_mappings.save()
-        self.stdout.write(self.style.SUCCESS('Add Admin Role Mappings "%s", User "%s"' % (admin.type,user.username)))
+        self.stdout.write(self.style.SUCCESS('Add Admin Role Mappings "%s", User "%s"' % (admin.type, user.username)))
 
     ''' Add Player to Teams'''
 
