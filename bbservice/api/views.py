@@ -1,6 +1,7 @@
 from .models import Player, Team, Player_Stat, Team_Stat, Game
-from .serializers import PlayerSerializer, PlayerStatSerializer, TeamSerializer, TeamStatSerializer, GameSerializer, PlayerSummarySerializer
-from django.http import  JsonResponse
+from .serializers import PlayerSerializer, PlayerStatSerializer, TeamSerializer, TeamStatSerializer, GameSerializer, \
+    PlayerSummarySerializer
+from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.db.models import Avg
 
@@ -36,6 +37,29 @@ def team(request):
         teams = Team.objects.all()
         team_serializer = TeamSerializer(teams, many=True)
         return JsonResponse(team_serializer.data, safe=False)
+
+
+''' Get the 90th percentile players In Team '''
+
+
+@csrf_exempt
+def best_players(request, team_id=None):
+    if request.method == 'GET':
+        team_players = Player.objects.filter(team_id=team_id).all()
+        all_stats = []
+        for player in team_players:
+            player_stat = Player_Stat.objects.filter(player_id=player.id).all()
+            player_stat_serializer = PlayerSummarySerializer(player_stat, many=True)
+            all_stats = all_stats + player_stat_serializer.data
+        all_stats.sort(key=sort_by_score)
+
+        ''' Get the 90th percentile player Margin'''
+        player_margin_index = int(round(.9 * (len(all_stats))))
+        return JsonResponse(all_stats[player_margin_index:], safe=False)
+
+
+def sort_by_score(stat):
+    return stat.get('score')
 
 
 @csrf_exempt

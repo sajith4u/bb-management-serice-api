@@ -21,6 +21,7 @@ urlpatterns = [
     path('player/<int:player_id>/', views.player_details, name='player_details'),
     path('player/', views.player, name='player'),
     path('team/<int:team_id>/', views.team_details, name='team_details'),
+    path('team/<int:team_id>/player', views.best_players, name='best_players'),
     path('team/', views.team, name='team'),
     path('game/', views.game, name='game'),
     path('game/<int:game_id>', views.game_details, name='game_details'),
