@@ -1,7 +1,7 @@
 ## SetUp Guide
 
 ### Steps to Follow
-Go to bbservice in project
+Go to **bbservice** folder in project
 
 1. source env/bin/activate
 2. python manage.py makemigrations
@@ -16,7 +16,7 @@ Go to bbservice in project
 
 ### How to Test BMS API
 
-Go to postman_docs & collect the BMS API.postman_collection.json and export to postman
+Go to postman_docs & collect the **_BMS API.postman_collection.json_** and export to postman
 
 ### Available API to Test
 
