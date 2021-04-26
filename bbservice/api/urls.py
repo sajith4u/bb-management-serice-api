@@ -22,4 +22,5 @@ urlpatterns = [
     path('player/', views.player, name='player'),
     path('team/<int:team_id>/', views.team_details, name='team_details'),
     path('team/', views.team, name='team'),
+    path('game/', views.game, name='game'),
 ]

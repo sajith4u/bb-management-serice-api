@@ -28,9 +28,12 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class GameSerializer(serializers.ModelSerializer):
+    host_name = serializers.CharField(source='host.name')
+    guest_name = serializers.CharField(source='guest.name')
+    winner_name = serializers.CharField(source='winner.name')
     class Meta:
         model = Game
-        fields = ('winner', 'round')
+        fields = ('host_name', 'guest_name', 'host_score', 'guest_score', 'winner_name', 'round')
 
 
 class TeamStatSerializer(serializers.ModelSerializer):

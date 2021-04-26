@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from rest_framework import viewsets
-from .models import Player, Team, Player_Stat, Team_Stat
-from .serializers import PlayerSerializer, PlayerStatSerializer, TeamSerializer, TeamStatSerializer
+from .models import Player, Team, Player_Stat, Team_Stat, Game
+from .serializers import PlayerSerializer, PlayerStatSerializer, TeamSerializer, TeamStatSerializer, GameSerializer
 from django.http import HttpResponse, HttpResponseForbidden, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.db.models import Avg
@@ -57,3 +57,11 @@ def team_details(request, team_id=None):
             'players': player_serializer.data
         }
         return JsonResponse(response, safe=False)
+
+
+@csrf_exempt
+def game(request):
+    if request.method == 'GET':
+        games = Game.objects.all()
+        game_serializer = GameSerializer(games, many=True)
+        return JsonResponse(game_serializer.data, safe=False)
