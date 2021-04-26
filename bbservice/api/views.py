@@ -47,9 +47,13 @@ def team_details(request, team_id=None):
         team_serializer = TeamSerializer(team)
         team_stat = Team_Stat.objects.filter(team_id=team_id).all()
         team_stat_serializer = TeamStatSerializer(team_stat, many=True)
+        team_players = Player.objects.filter(team_id=team_id).all()
+        player_serializer = PlayerSerializer(team_players, many=True)
 
         response = {
             'team': team_serializer.data,
-            'games': team_stat_serializer.data
+            'team_avg': team_stat.aggregate(Avg('score')),
+            'games': team_stat_serializer.data,
+            'players': player_serializer.data
         }
         return JsonResponse(response, safe=False)
