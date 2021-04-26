@@ -252,14 +252,14 @@ class Command(BaseCommand):
     def add_player_stat(self):
         team_stats = Team_Stat.objects.all()
         for ts in team_stats:
-            ''' Assume All the players score runs for match '''
-            players = Player.objects.filter(team_id=ts.team_id)
+            ''' Get Random 5 Players to Play Match '''
+            players = random.choices(Player.objects.filter(team_id=ts.team_id), k=5)
             score = random.randint(0, 10)
             for player in players:
                 player_stat = Player_Stat(player_id=player.id, game_id=ts.game.id, score=score);
                 player_stat.save()
                 self.stdout.write(self.style.SUCCESS(
-                    'Player Stats Added for %s , Geme : %s' % (player.user.first_name, player.team.name)))
+                    'Player Stats Added for %s , For Team : %s' % (player.user.first_name, player.team.name)))
 
     ''' Clean All Tables '''
 
