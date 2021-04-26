@@ -29,3 +29,8 @@ Go to postman_docs & collect the **_BMS API.postman_collection.json_** and expor
 7. Game Details
 
 
+### Unit Test In API Service
+
+ python manage.py test api.tests
+
+
